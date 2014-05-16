@@ -33,6 +33,7 @@ sub_ext = 'srt aas ssa sub smi'
 global regex_1, regex_2, regex_3
 regex_1 = "<div class=\"f_left\"><p><a href=\"([^\"]*)\">([^<]*)</a></p><p class=\"data\">.*?downloads, nota (\d*?),.*?<img .*? title=\"([^\"]*)\" /></div>"
 regex_2 = "<button class=\"ajax\" data-href=\"/util/carrega_legendas_busca/id_filme:\d*/page:\d*\">(\d*)</button>"
+regex_2 = "class=\"load_more\""
 regex_3 = "<button class=\"icon_arrow\" onclick=\"window.open\(\'([^\']*?)\', \'_self\'\)\">DOWNLOAD</button>"
 
 LANGUAGES      = (
@@ -376,9 +377,10 @@ class LegendasTV:
         for MainID in filteredResults[0:4]:
             # Find how much pages are to download
             self.Log("Message: Retrieving results to id[%s]" % (MainID["id"]))
-            Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"]))
-            regResponse = re.findall(regex_2, Response)
-            TotalPages = len(regResponse) +1
+#             Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"]))
+#             regResponse = re.findall(regex_2, Response)
+#             TotalPages = len(regResponse) +1
+            TotalPages=3
             # Form and execute threaded downloads
             for Page in range(TotalPages):
                 Page += 1

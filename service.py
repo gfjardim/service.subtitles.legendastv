@@ -38,6 +38,8 @@ def Search(item):  # standard input
         LTV = LegendasTV()
         LTV.Log = log
         subtitles = ""
+        languages = []
+        print item['languages']
         subtitles = LTV.Search(title=item['title'], 
                                tvshow=item['tvshow'], 
                                year=item['year'], 
@@ -80,15 +82,19 @@ def Download(url, filename, stack=False): #standard input
     
     # Download the subtitle using its ID.
     Response = urllib2.urlopen(url).read()
+
     downloadID = re.findall(regex_3, Response)[0] if re.search(regex_3, Response) else 0
+
     if not downloadID:
         return ""
     Response = urllib2.urlopen(urllib2.Request("http://minister.legendas.tv%s" % downloadID))
+    print Response.info().headers
     ltv_sub = Response.read()
+    
     # Set the path of file concatenating the temp dir, the subtitle ID and a zip or rar extension.
     # Write the subtitle in binary mode.
     fname = os.path.join(__temp__,"subtitle")
-    fname += '.rar' if Response.info().get("Content-Disposition").__contains__('rar') else '.zip'
+    fname += '.rar' if re.search("\x52\x61\x72\x21\x1a\x07\x00", ltv_sub) else '.zip'
     with open(fname,'wb') as f:
         f.write(ltv_sub)
 
