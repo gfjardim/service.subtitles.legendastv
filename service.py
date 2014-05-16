@@ -39,7 +39,6 @@ def Search(item):  # standard input
         LTV.Log = log
         subtitles = ""
         languages = []
-        print item['languages']
         subtitles = LTV.Search(title=item['title'], 
                                tvshow=item['tvshow'], 
                                year=item['year'], 
@@ -88,7 +87,6 @@ def Download(url, filename, stack=False): #standard input
     if not downloadID:
         return ""
     Response = urllib2.urlopen(urllib2.Request("http://minister.legendas.tv%s" % downloadID))
-    print Response.info().headers
     ltv_sub = Response.read()
     
     # Set the path of file concatenating the temp dir, the subtitle ID and a zip or rar extension.
