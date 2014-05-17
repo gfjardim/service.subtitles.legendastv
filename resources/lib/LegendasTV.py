@@ -253,24 +253,24 @@ class LegendasTV:
         # Filter tvshows for season or movies by year
         else:
             allResults = sorted(allResults, key=lambda k: k["ratio"], reverse=True)
+            partialMatch = []
             for Result in allResults:
                 if TVShow:
-                    if int(Season) == int(Result["season"]) or (not Result["season"] and Result["ratio"] == "1.00"):
-                        if len(filteredResults):
-                            if Result["ratio"] == filteredResults[0]["ratio"]:
-                                filteredResults.append(Result)
-                            else:
-                                discardedResults.append(Result)
-                        else:
-                            filteredResults.append(Result)
+                    if int(Season) == int(Result["season"]):
+                        filteredResults.append(Result)
+                    elif not Result["season"] and Result["ratio"] == "1.00":
+                        partialMatch.append(Result)
                     else:
                         discardedResults.append(Result)
+
                 elif Movie:
 #                     if abs(int(Result["year"]) - int(Year)) <= 1 and math.fabs(float(Result["ratio"]) - float(allResults[0]["ratio"])) <= 0.25:
                     if math.fabs(float(Result["ratio"]) - float(allResults[0]["ratio"])) <= 0.25:
                         filteredResults.append(Result)
                     else:
                         discardedResults.append(Result)
+            if not len(filteredResults):
+                filteredResults.extend(partialMatch)
             if not len(filteredResults):
                 self.Log("Message: After filtration, search [%s] didn't returned viable results." % SearchString)
                 self.Log("Discarded results:")
@@ -290,8 +290,8 @@ class LegendasTV:
         # Log the page download attempt.
         self.Log("Message: Retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         
-        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
-
+#        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
+        Response = self._urlopen("http://legendas.tv/util/carrega_legendas_busca_filme/%s/%s" % (MainID["id"], Page))
         if not re.findall(regex_1, Response, re.IGNORECASE | re.DOTALL):
             self.Log("Error: Failed retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         else:

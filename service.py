@@ -153,7 +153,7 @@ def Download(url, filename, stack=False): #standard input
     outputSub = []
     if len(subtitles) > 1:
         dialog = xbmcgui.Dialog()
-        sel = dialog.select("%s\n%s" % (__language__( 30152 ).encode("utf-8"), filename ) ,
+        sel = dialog.select("%s\n%s" % (__language__( 32001 ).encode("utf-8"), filename ) ,
                              [os.path.basename(y) for x, y in subtitles])
         if sel >= 0:
             subSelected = subtitles[sel][1]
