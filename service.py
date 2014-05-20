@@ -187,9 +187,10 @@ def get_params(string=""):
     return param
 
 params = get_params()
+log( __name__, "Action '%s' called" % params['action'])
 
-if params['action'] == 'search':
-    log( "action 'search' called")
+if params['action'] == 'search' or params['action'] == 'manualsearch':
+
     item = {}
     item['temp']                = False
     item['rar']                 = False
@@ -201,15 +202,24 @@ if params['action'] == 'search':
     item['file_original_path']  = urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8'))# Full path of a playing file
     item['languages']           = [] #['scc','eng']
     item["languages"].extend(urllib.unquote(params['languages']).decode('utf-8').split(","))
- 
-    if len(item["languages"]) > 1:   
-        for x, lang in enumerate(item["languages"]):
-            if lang == u"Portuguese (Brazil)":
-                item["languages"][0], item["languages"][x] = item["languages"][x], item["languages"][0]
-            elif lang == u"Portuguese":
-                item["languages"][1], item["languages"][x] = item["languages"][x], item["languages"][1]
-            elif lang == u"English":
-                item["languages"][2], item["languages"][x] = item["languages"][x], item["languages"][2]
+    
+    if 'searchstring' in params:
+        if item['title']:
+            item['title'] = urllib.unquote(params['searchstring'])
+        elif item['tvshow']:
+            item['tvshow'] = urllib.unquote(params['searchstring'])
+            
+    langtemp = []
+    for lang in item["languages"]:
+        if lang == u"Portuguese (Brazil)": langtemp.append((0, lang))
+        elif lang == u"Portuguese": langtemp.append((1, lang))
+        elif lang == u"English": langtemp.append((2, lang))
+        else: langtemp.append((3, lang))
+    langtemp = sorted(langtemp)
+    item["languages"] = []
+    for a, b in langtemp:
+        item["languages"].append(b)
+
     if item['title'] == "":
         log( "VideoPlayer.OriginalTitle not found")
         item['title']    = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))            # no original title, get just Title
