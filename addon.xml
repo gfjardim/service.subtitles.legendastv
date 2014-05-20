@@ -2,7 +2,7 @@
 <addon
    id="service.subtitles.legendastv"
    name="Legendas.TV"
-   version="2.2.0"
+   version="2.2.1"
    provider-name="gfjardim">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
