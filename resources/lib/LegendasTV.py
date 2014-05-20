@@ -32,7 +32,6 @@ else:
 sub_ext = 'srt aas ssa sub smi'
 global regex_1, regex_2, regex_3
 regex_1 = "<div class=\"f_left\"><p><a href=\"([^\"]*)\">([^<]*)</a></p><p class=\"data\">.*?downloads, nota (\d*?),.*?<img .*? title=\"([^\"]*)\" /></div>"
-regex_2 = "<button class=\"ajax\" data-href=\"/util/carrega_legendas_busca/id_filme:\d*/page:\d*\">(\d*)</button>"
 regex_2 = "class=\"load_more\""
 regex_3 = "<button class=\"icon_arrow\" onclick=\"window.open\(\'([^\']*?)\', \'_self\'\)\">DOWNLOAD</button>"
 
@@ -98,15 +97,16 @@ LANGUAGES      = (
     ("Chinese (Simplified)"       , "17",       "zh",            "chi",                 "100",                   30207  ) )
 
 def languageTranslate(lang, lang_from, lang_to):
-  for x in LANGUAGES:
-    if lang == x[lang_from] :
-      return x[lang_to]
+    for x in LANGUAGES:
+        if lang == x[lang_from] :
+            return x[lang_to]
 
-def normalizeString(str):
-  return unicodedata.normalize(
-         'NFKD', unicode(unicode(str, 'utf-8'))
-         ).encode('ascii','ignore')
-
+def normalizeString(obj):
+    try:
+        return unicodedata.normalize('NFKD', unicode(unicode(obj, 'utf-8'))).encode('ascii','ignore')
+    except:
+        return unicode(str(obj).encode('string_escape'))
+    
 class LTVThread(Thread):
     def __init__ (self, obj, count, main_id, page):
         Thread.__init__(self)
@@ -126,8 +126,7 @@ class LegendasTV:
         self.cookie = ""
     
     def Log(self, message):
-#        print "####  %s" % message.encode("utf-8")
-        log(__name__, message)
+        print "####  %s" % message.encode("utf-8")
         
     def _urlopen(self, request):
         try:

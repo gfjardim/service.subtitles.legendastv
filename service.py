@@ -92,7 +92,8 @@ def Download(url, filename, stack=False): #standard input
     # Set the path of file concatenating the temp dir, the subtitle ID and a zip or rar extension.
     # Write the subtitle in binary mode.
     fname = os.path.join(__temp__,"subtitle")
-    fname += '.rar' if re.search("\x52\x61\x72\x21\x1a\x07\x00", ltv_sub) else '.zip'
+#     fname += '.rar' if re.search("\x52\x61\x72\x21\x1a\x07\x00", ltv_sub) else '.zip'
+    fname += '.rar' if Response.url.__contains__('.rar') else '.zip'
     with open(fname,'wb') as f:
         f.write(ltv_sub)
 
@@ -187,7 +188,7 @@ def get_params(string=""):
     return param
 
 params = get_params()
-log( __name__, "Action '%s' called" % params['action'])
+log( "Action '%s' called" % params['action'])
 
 if params['action'] == 'search' or params['action'] == 'manualsearch':
 
