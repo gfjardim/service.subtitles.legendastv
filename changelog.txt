@@ -1,9 +1,10 @@
 2.2.1
-- Fix language sorting
+- Fix: Language sorting
 - Implement manual search 
+- Workaround: Android not parsing filesystem encoding
 
 2.2.0
-- Fix decompressing the downloaded subtitle
+- Fix: decompressing the downloaded subtitle
 
 2.1.2
-- move the service out of XBMC Subtitles
+- Move the service out of XBMC Subtitles

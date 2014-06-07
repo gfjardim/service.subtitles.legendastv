@@ -99,7 +99,7 @@ def Download(url, filename, stack=False): #standard input
 
     # brunoga fixed solution for non unicode caracters
     # Ps. Windows allready parses Unicode filenames.
-    fs_encoding = sys.getfilesystemencoding()
+    fs_encoding = sys.getfilesystemencoding() if sys.getfilesystemencoding() else "utf-8"
     extractPath = extractPath.encode(fs_encoding)
 
     # Use XBMC.Extract to extract the downloaded file, extract it to the temp dir, 
@@ -188,6 +188,7 @@ def get_params(string=""):
     return param
 
 params = get_params()
+log( "Version: %s" % __version__)
 log( "Action '%s' called" % params['action'])
 
 if params['action'] == 'search' or params['action'] == 'manualsearch':
