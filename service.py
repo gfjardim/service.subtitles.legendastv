@@ -198,31 +198,26 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
 
     langtemp = []
     for lang in item["languages"]:
-		if lang == u"Portuguese (Brazil)": langtemp.append((0, lang))
-		elif lang == u"Portuguese": langtemp.append((1, lang))
-		elif lang == u"English": langtemp.append((2, lang))
-		else: langtemp.append((3, lang))
-	
-#		if __search__ == '0':
-#			if lang == u"Portuguese (Brazil)": langtemp.append((0, lang))
-#			elif lang == u"Portuguese": langtemp.append((1, lang))
-#			elif lang == u"English": langtemp.append((2, lang))
-#			else: langtemp.append((3, lang))
-#		elif __search__ == '1':
-#			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
-#			elif lang == u"Portuguese": langtemp.append((0, lang))
-#			elif lang == u"English": langtemp.append((2, lang))
-#			else: langtemp.append((3, lang))
-#		elif __search__ == '2':			
-#			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
-#			elif lang == u"Portuguese": langtemp.append((2, lang))
-#			elif lang == u"English": langtemp.append((0, lang))
-#			else: langtemp.append((3, lang))
-#		elif __search__ == '3':		
-#			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
-#			elif lang == u"Portuguese": langtemp.append((2, lang))
-#			elif lang == u"English": langtemp.append((3, lang))
-#			else: langtemp.append((0, lang))
+		if __search__ == '0':
+			if lang == u"Portuguese (Brazil)": langtemp.append((0, lang))
+			elif lang == u"Portuguese": langtemp.append((1, lang))
+			elif lang == u"English": langtemp.append((2, lang))
+			else: langtemp.append((3, lang))
+		elif __search__ == '1':
+			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
+			elif lang == u"Portuguese": langtemp.append((0, lang))
+			elif lang == u"English": langtemp.append((2, lang))
+			else: langtemp.append((3, lang))
+		elif __search__ == '2':			
+			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
+			elif lang == u"Portuguese": langtemp.append((2, lang))
+			elif lang == u"English": langtemp.append((0, lang))
+			else: langtemp.append((3, lang))
+		elif __search__ == '3':		
+			if lang == u"Portuguese (Brazil)": langtemp.append((1, lang))
+			elif lang == u"Portuguese": langtemp.append((2, lang))
+			elif lang == u"English": langtemp.append((3, lang))
+			else: langtemp.append((0, lang))
     langtemp = sorted(langtemp)
     item["languages"] = []
     for a, b in langtemp: item["languages"].append(b)
