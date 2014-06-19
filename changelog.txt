@@ -1,4 +1,7 @@
 2.2.1
+- Fix: Portuguese subtitles not displayed (tnx to Carlos Correia)
+- Implemented: Changing the language predilection at addon preferences (tnx to Carlos Correia)
+- Fix: small string fix (tnx to Carlos Correia)
 - Fix: Language sorting
 - Implement manual search 
 - Workaround: Android not parsing filesystem encoding
