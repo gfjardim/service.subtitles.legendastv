@@ -290,7 +290,7 @@ class LegendasTV:
         self.Log("Message: Retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         
 #        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
-        Response = self._urlopen("http://legendas.tv/util/carrega_legendas_busca_filme/%s/%s" % (MainID["id"], Page))
+        Response = self._urlopen("http://legendas.tv/util/carrega_legendas_busca_filme/%s/-/-/%s" % (MainID["id"], Page))
         if not re.findall(regex_1, Response, re.IGNORECASE | re.DOTALL):
             self.Log("Error: Failed retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         else:
@@ -381,9 +381,10 @@ class LegendasTV:
 #             TotalPages = len(regResponse) +1
             TotalPages=3
             # Form and execute threaded downloads
+            Page = 0
             for Page in range(TotalPages):
-                Page += 1
                 current = LTVThread(self, MainID , MainIDNumber, Page)
+                Page += 1				
                 self.RegThreads.append(current)
                 current.start()
             MainIDNumber += 1
