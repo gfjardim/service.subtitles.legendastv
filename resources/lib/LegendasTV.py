@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.1.2
+# Rev. 2.1.3
 
 def module_exists(module_name):
     try:
@@ -301,11 +301,11 @@ class LegendasTV:
                 release = normalizeString(content[1])
                 rating =  content[2]
                 lang = normalizeString(content[3])
-                if re.search("Portugu.s-BR", lang):   LanguageId = "pb" 
-                elif re.search("Portugu.s-PT", lang): LanguageId = "pt"
-                elif re.search("Ingl.s", lang):       LanguageId = "en" 
+                if re.search("Portugues-BR", lang):   LanguageId = "pb" 
+                elif re.search("Portugues-PT", lang): LanguageId = "pt"
+                elif re.search("Ingles", lang):       LanguageId = "en" 
                 elif re.search("Espanhol", lang):     LanguageId = "es"
-                elif re.search("Franc.s", lang):      LanguageId = "fr"
+                elif re.search("Frances", lang):      LanguageId = "fr"
                 else: continue
                 for Preference, LangName in self.Languages:
                     if LangName == languageTranslate(LanguageId, 2, 0):
