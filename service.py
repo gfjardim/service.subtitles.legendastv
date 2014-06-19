@@ -64,7 +64,7 @@ def Search(item):  # standard input
             url = "plugin://%s/?action=download&download_url=%s&filename=%s" % (__scriptid__, it["url"],os.path.basename(item["file_original_path"]))
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False)
     
-def Download(url, filename, stack=False): #standard input
+def Download(url, filename='tempfilename', stack=False): #standard input
     #Create some variables
     subtitles = []
     extractPath = os.path.join(__temp__, "Extracted")
