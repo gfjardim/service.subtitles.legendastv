@@ -381,10 +381,9 @@ class LegendasTV:
 #             TotalPages = len(regResponse) +1
             TotalPages=3
             # Form and execute threaded downloads
-            Page = 0
             for Page in range(TotalPages):
+                Page += 1                
                 current = LTVThread(self, MainID , MainIDNumber, Page)
-                Page += 1				
                 self.RegThreads.append(current)
                 current.start()
             MainIDNumber += 1
