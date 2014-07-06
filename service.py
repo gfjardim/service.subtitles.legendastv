@@ -240,7 +240,8 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
     Search(item)    
 
 elif params['action'] == 'download':
-    subs = Download(params["download_url"],params["filename"])
+    try: subs = Download(params["download_url"],params["filename"])
+    except: subs = Download(params["download_url"],'filename')
     for sub in subs:
         listitem = xbmcgui.ListItem(label2=os.path.basename(sub))
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
