@@ -5,7 +5,7 @@
    version="2.2.1"
    provider-name="gfjardim">
   <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="xbmc.python" version="2.14.0"/>
   </requires>
   <extension point="xbmc.subtitle.module" library="service.py" />
   <extension point="xbmc.addon.metadata">
