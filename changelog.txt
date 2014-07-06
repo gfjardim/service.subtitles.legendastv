@@ -1,3 +1,6 @@
+2.2.2
+- Fix a bug with stream sites not parsing a valid filename (thanks to Mafarricos)
+
 2.2.1
 - Fix: Portuguese subtitles not displayed (tnx to Carlos Correia)
 - Implemented: Changing the language predilection at addon preferences (tnx to Carlos Correia)
