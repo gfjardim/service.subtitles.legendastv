@@ -124,9 +124,11 @@ class LegendasTV:
     def __init__(self, **kargs):
         self.RegThreads = []
         self.cookie = ""
+        self.LogEnabled = True
     
     def Log(self, message):
-        print "####  %s" % message.encode("utf-8")
+        if self.LogEnabled:
+            print "####  %s" % message.encode("utf-8")
         
     def _urlopen(self, request):
         try:
