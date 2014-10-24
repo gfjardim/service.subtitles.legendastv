@@ -28,6 +28,8 @@ __temp__       = xbmc.translatePath( os.path.join( __profile__, 'temp') ).decode
 
 sys.path.append (__resource__)
 __search__ = __addon__.getSetting( 'SEARCH' )
+__username__ = __addon__.getSetting( 'USERNAME' )
+__password__ = __addon__.getSetting( 'PASSWORD' )
 
 from LTVutilities import log, xbmcOriginalTitle, cleanDirectory, isStacked
 from LegendasTV import *
@@ -240,11 +242,13 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
     Search(item)    
 
 elif params['action'] == 'download':
-    try: subs = Download(params["download_url"],params["filename"])
+    ltv = LegendasTV()
+    try:
+        ltv.login(__username__, __password__)
+        subs = Download(params["download_url"],params["filename"])
     except: subs = Download(params["download_url"],'filename')
     for sub in subs:
         listitem = xbmcgui.ListItem(label2=os.path.basename(sub))
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
-
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
     

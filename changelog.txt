@@ -1,3 +1,6 @@
+2.2.4
+- Added login support
+
 2.2.3
 - Change the way pack's are detected
 
