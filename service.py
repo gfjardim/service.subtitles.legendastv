@@ -54,8 +54,13 @@ def Search(item):  # standard input
 
     if subtitles:
         for it in subtitles:
+            if it['type'] == "destaque":
+                label = "[COLOR FFDE7B18]%s[/COLOR]" % it["filename"]
+            else:
+                label = it["filename"]
+
             listitem = xbmcgui.ListItem(label=it["language_name"],
-                                        label2=it["filename"],
+                                        label2=label,
                                         iconImage=it["rating"],
                                         thumbnailImage=it["language_flag"]
                                         )
