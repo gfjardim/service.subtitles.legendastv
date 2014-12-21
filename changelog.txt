@@ -1,3 +1,6 @@
+2.2.5
+- Fix cleanup
+
 2.2.4
 - Added login support (thanks to Eduardo Franceschi)
 - Highlights are now displayed correctly

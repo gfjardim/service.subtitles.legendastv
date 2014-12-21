@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.1.2
+# Rev. 2.2.5
 
 import os
 import sys
@@ -24,7 +24,7 @@ __language__   = __addon__.getLocalizedString
 __cwd__        = xbmc.translatePath( __addon__.getAddonInfo('path') ).decode("utf-8")
 __profile__    = xbmc.translatePath( __addon__.getAddonInfo('profile') ).decode("utf-8")
 __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' ) ).decode("utf-8")
-__temp__       = xbmc.translatePath( os.path.join( __profile__, 'temp') ).decode("utf-8")
+__temp__       = xbmc.translatePath( os.path.join( __profile__, 'temp', '') ).decode("utf-8")
 
 sys.path.append (__resource__)
 __search__ = __addon__.getSetting( 'SEARCH' )
@@ -34,12 +34,12 @@ __password__ = __addon__.getSetting( 'PASSWORD' )
 from LTVutilities import log, xbmcOriginalTitle, cleanDirectory, isStacked
 from LegendasTV import *
 
+LTV = LegendasTV()
+LTV.Log = log
+
 def Search(item):  # standard input
 
     try:
-        LTV = LegendasTV()
-        LTV.Log = log
-        subtitles = ""
         languages = []
         subtitles = LTV.Search(title=item['title'], 
                                tvshow=item['tvshow'], 
@@ -75,24 +75,13 @@ def Download(url, filename, stack=False): #standard input
     #Create some variables
     subtitles = []
     extractPath = os.path.join(__temp__, "Extracted")
-    cleanDirectory(__temp__)
-    if not xbmcvfs.exists(extractPath): os.makedirs(extractPath)
-    
-    # Download the subtitle using its ID.
-    Response = urllib2.urlopen(url).read()
+    cleanDirectory(extractPath)
 
-    downloadID = re.findall(regex_3, Response)[0] if re.search(regex_3, Response) else 0
+    FileContent, FileExt = LTV.Download(url)
 
-    if not downloadID: return ""
-    Response = urllib2.urlopen(urllib2.Request("http://minister.legendas.tv%s" % downloadID))
-    ltv_sub = Response.read()
-    
-    # Set the path of file concatenating the temp dir, the subtitle ID and a zip or rar extension.
-    # Write the subtitle in binary mode.
-    fname = os.path.join(__temp__,"subtitle")
-#     fname += '.rar' if re.search("\x52\x61\x72\x21\x1a\x07\x00", ltv_sub) else '.zip'
-    fname += '.rar' if Response.url.__contains__('.rar') else '.zip'
-    with open(fname,'wb') as f: f.write(ltv_sub)
+    fname = "%s.%s" % ( os.path.join(__temp__,"subtitle"), FileExt )
+
+    with open(fname,'wb') as f: f.write(FileContent)
 
     # brunoga fixed solution for non unicode caracters
     # Ps. Windows allready parses Unicode filenames.
@@ -107,6 +96,7 @@ def Download(url, filename, stack=False): #standard input
                 dirfile = os.path.join(root, file)
                 
                 # Sanitize filenames - converting them to ASCII - and remove them from folders
+
                 f = xbmcvfs.File(dirfile)
                 temp = f.read()
                 f.close()
@@ -114,7 +104,7 @@ def Download(url, filename, stack=False): #standard input
                 dirfile_with_path_name = normalizeString(os.path.relpath(dirfile, extractPath))
                 dirname, basename = os.path.split(dirfile_with_path_name)
                 dirname = re.sub(r"[/\\]{1,10}","-", dirname)
-                dirfile_with_path_name = "(%s)%s" % (dirname, basename) if len(dirname) else basename
+                dirfile_with_path_name = "(%s) %s" % (dirname, basename) if len(dirname) else basename
                 new_dirfile = os.path.join(extractPath, dirfile_with_path_name)
                 with open(new_dirfile, "w") as f: f.write(temp)
                 
@@ -247,9 +237,8 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
     Search(item)    
 
 elif params['action'] == 'download':
-    ltv = LegendasTV()
     try:
-        ltv.login(__username__, __password__)
+        Cookie = LTV.login(__username__, __password__)
         subs = Download(params["download_url"],params["filename"])
     except: subs = Download(params["download_url"],'filename')
     for sub in subs:
