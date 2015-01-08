@@ -68,10 +68,27 @@ def Search(item):  # standard input
             else: listitem.setProperty( "sync", "false" )
             if it.get("hearing_imp", False): listitem.setProperty( "hearing_imp", "true" )
             else: listitem.setProperty( "hearing_imp", "false" )
-            url = "plugin://%s/?action=download&download_url=%s&filename=%s" % (__scriptid__, it["url"],os.path.basename(item["file_original_path"]))
+            pack = "true" if it['type'] == "pack" else "false"
+            url = "plugin://%s/?action=download&download_url=%s&filename=%s&pack=%s&lang=%s" % (__scriptid__, 
+                                                                                                it["url"],
+                                                                                                os.path.basename(item["file_original_path"]), 
+                                                                                                pack,
+                                                                                                it["language_name"] )
+
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False)
-    
-def Download(url, filename, stack=False): #standard input
+
+def xbmc_walk(path, out = [] ):
+    dirs, files =  xbmcvfs.listdir(path)
+    for f in files:
+        f = "%s/%s" % (path, f)
+        if xbmcvfs.exists(f): out.append(f)
+    for d in dirs:
+        d = "%s/%s/" % (path, d)
+        if xbmcvfs.exists(d): out.extend(xbmc_walk(d, out) )
+    return out
+
+
+def Download(url, filename, pack, language): #standard input
     #Create some variables
     subtitles = []
     extractPath = os.path.join(__temp__, "Extracted")
@@ -138,16 +155,35 @@ def Download(url, filename, stack=False): #standard input
     subtitles = sorted(temp, reverse=True)
     outputSub = []
     if len(subtitles) > 1:
+        if pack:
+            subtitles.append(["pack",__language__( 32010 )])
         dialog = xbmcgui.Dialog()
         sel = dialog.select("%s\n%s" % (__language__( 32001 ).encode("utf-8"), filename ) ,
                              [os.path.basename(y) for x, y in subtitles])
         if sel >= 0:
             subSelected = subtitles[sel][1]
+
+            # Handling package import
+            if subtitles[sel][0] == "pack":
+                dir = os.path.dirname(urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8')))
+                for f in xbmc_walk(dir):
+                    if os.path.splitext(f)[1] in [".mkv", ".avi", ".vob", ".mov", ".mp4"]:
+                        for x, s in subtitles:
+                            if re.search("s\d{2}e\d{2}", s.lower()): se = re.findall("s\d{2}e\d{2}", s.lower())[0]
+                            if re.search("s\d{2}e\d{2}", f.lower()): fe = re.findall("s\d{2}e\d{2}", f.lower())[0]
+                            if se == fe:
+                                if os.path.basename(f) == os.path.basename(filename):
+                                    outputSub.append(s)
+                                name = os.path.splitext(f)[0]
+                                ext = os.path.splitext(s)[1]
+                                lang = "pt" if re.search("Portuguese", language) else "en"
+                                out = "%s.%s%s" % (name, lang, ext)
+                                xbmcvfs.copy(s, out)
+
+
             outputSub.append(subSelected)
-            for x, sub in subtitles:
-                if isStacked(subSelected, sub):
-                    outputSub.append(sub)
     elif len(subtitles) == 1: outputSub.append(subtitles[0][1])
+
     return outputSub
 
 def get_params(string=""):
@@ -237,10 +273,12 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
     Search(item)    
 
 elif params['action'] == 'download':
+    pack = True if params['pack'] == "true" else False
+    Cookie = LTV.login(__username__, __password__)
     try:
-        Cookie = LTV.login(__username__, __password__)
-        subs = Download(params["download_url"],params["filename"])
-    except: subs = Download(params["download_url"],'filename')
+        subs = Download(params["download_url"],params["filename"], pack, params['lang'])
+    except: 
+        subs = Download(params["download_url"],'filename', pack, params['lang'])
     for sub in subs:
         listitem = xbmcgui.ListItem(label2=os.path.basename(sub))
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
