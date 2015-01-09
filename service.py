@@ -226,8 +226,10 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
         item['title']  = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))
 
     if 'searchstring' in params:
-        if item['title']: item['title'] = urllib.unquote(params['searchstring'])
-        elif item['tvshow']: item['tvshow'] = urllib.unquote(params['searchstring'])
+        if item['tvshow']: 
+            item['tvshow'] = urllib.unquote(params['searchstring'])
+        elif item['title']: 
+            item['title'] = urllib.unquote(params['searchstring'])
 
     langtemp = []
     for lang in item["languages"]:
