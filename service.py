@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.2.5
+# Rev. 2.3.0
 
 import os
 import sys
@@ -31,7 +31,7 @@ __search__ = __addon__.getSetting( 'SEARCH' )
 __username__ = __addon__.getSetting( 'USERNAME' )
 __password__ = __addon__.getSetting( 'PASSWORD' )
 
-from LTVutilities import log, xbmcOriginalTitle, cleanDirectory, isStacked
+from LTVutilities import log, xbmcOriginalTitle, cleanDirectory, isStacked, getMovieId, getShowIMDB, getShowId
 from LegendasTV import *
 
 LTV = LegendasTV()
@@ -46,7 +46,8 @@ def Search(item):  # standard input
                                year=item['year'], 
                                season=item['season'], 
                                episode=item['episode'], 
-                               lang=item['languages'])
+                               lang=item['languages'],
+                               imdb=item['imdb'])
     except:
         import traceback
         log("\n%s" % traceback.format_exc())
@@ -211,15 +212,20 @@ if params['action'] == 'search' or params['action'] == 'manualsearch':
     item = {}
     item['temp']                = False
     item['rar']                 = False
-    item['year']                = xbmc.getInfoLabel("VideoPlayer.Year")                                                 # Year
-    item['season']              = str(xbmc.getInfoLabel("VideoPlayer.Season"))                                    # Season
-    item['episode']             = str(xbmc.getInfoLabel("VideoPlayer.Episode"))                                 # Episode
-    item['tvshow']              = normalizeString(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))    # Show
-    item['title']               = normalizeString(xbmc.getInfoLabel("VideoPlayer.OriginalTitle"))# try to get original title
-    item['file_original_path']  = urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8'))# Full path of a playing file
+    item['year']                = xbmc.getInfoLabel("VideoPlayer.Year")                              # Year
+    item['season']              = str(xbmc.getInfoLabel("VideoPlayer.Season"))                       # Season
+    item['episode']             = str(xbmc.getInfoLabel("VideoPlayer.Episode"))                      # Episode
+    item['tvshow']              = xbmcOriginalTitle(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))    # Show
+    item['title']               = xbmcOriginalTitle(xbmc.getInfoLabel("VideoPlayer.OriginalTitle"))  # try to get original title
+    item['file_original_path']  = urllib.unquote(xbmc.Player().getPlayingFile().decode('utf-8'))     # Full path of a playing file
     item['languages']           = [] #['scc','eng']
     item["languages"].extend(urllib.unquote(params['languages']).decode('utf-8').split(","))
-    
+
+    if item['tvshow']:
+        item["imdb"] = getShowIMDB()
+    else:
+        item["imdb"] = getMovieId()
+
     if not item['title']:
         # no original title, get just Title
         log( "VideoPlayer.OriginalTitle not found")        

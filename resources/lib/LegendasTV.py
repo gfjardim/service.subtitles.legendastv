@@ -1,5 +1,5 @@
 ﻿# -*- coding: UTF-8 -*-
-# Copyright, 2010, Guilherme Jardim.
+# Copyright, 2010-2016, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
 
@@ -38,51 +38,9 @@ LANGUAGES      = (
 
     # Full Language name[0]     podnapisi[1]  ISO 639-1[2]   ISO 639-1 Code[3]   Script Setting Language[4]   localized name id number[5]
 
-    ("Albanian"                   , "29",       "sq",            "alb",                 "0",                     30201  ),
-    ("Arabic"                     , "12",       "ar",            "ara",                 "1",                     30202  ),
-    ("Belarusian"                 , "0" ,       "hy",            "arm",                 "2",                     30203  ),
-    ("Bosnian"                    , "10",       "bs",            "bos",                 "3",                     30204  ),
-    ("Bulgarian"                  , "33",       "bg",            "bul",                 "4",                     30205  ),
-    ("Catalan"                    , "53",       "ca",            "cat",                 "5",                     30206  ),
-    ("Chinese"                    , "17",       "zh",            "chi",                 "6",                     30207  ),
-    ("Croatian"                   , "38",       "hr",            "hrv",                 "7",                     30208  ),
-    ("Czech"                      , "7",        "cs",            "cze",                 "8",                     30209  ),
-    ("Danish"                     , "24",       "da",            "dan",                 "9",                     30210  ),
-    ("Dutch"                      , "23",       "nl",            "dut",                 "10",                    30211  ),
     ("English"                    , "2",        "en",            "eng",                 "11",                    30212  ),
-    ("Estonian"                   , "20",       "et",            "est",                 "12",                    30213  ),
-    ("Persian"                    , "52",       "fa",            "per",                 "13",                    30247  ),
-    ("Finnish"                    , "31",       "fi",            "fin",                 "14",                    30214  ),
-    ("French"                     , "8",        "fr",            "fre",                 "15",                    30215  ),
-    ("German"                     , "5",        "de",            "ger",                 "16",                    30216  ),
-    ("Greek"                      , "16",       "el",            "ell",                 "17",                    30217  ),
-    ("Hebrew"                     , "22",       "he",            "heb",                 "18",                    30218  ),
-    ("Hindi"                      , "42",       "hi",            "hin",                 "19",                    30219  ),
-    ("Hungarian"                  , "15",       "hu",            "hun",                 "20",                    30220  ),
-    ("Icelandic"                  , "6",        "is",            "ice",                 "21",                    30221  ),
-    ("Indonesian"                 , "0",        "id",            "ind",                 "22",                    30222  ),
-    ("Italian"                    , "9",        "it",            "ita",                 "23",                    30224  ),
-    ("Japanese"                   , "11",       "ja",            "jpn",                 "24",                    30225  ),
-    ("Korean"                     , "4",        "ko",            "kor",                 "25",                    30226  ),
-    ("Latvian"                    , "21",       "lv",            "lav",                 "26",                    30227  ),
-    ("Lithuanian"                 , "0",        "lt",            "lit",                 "27",                    30228  ),
-    ("Macedonian"                 , "35",       "mk",            "mac",                 "28",                    30229  ),
-    ("Norwegian"                  , "3",        "no",            "nor",                 "29",                    30230  ),
-    ("Polish"                     , "26",       "pl",            "pol",                 "30",                    30232  ),
     ("Portuguese"                 , "32",       "pt",            "por",                 "31",                    30233  ),
-    ("Romanian"                   , "13",       "ro",            "rum",                 "33",                    30235  ),
-    ("Russian"                    , "27",       "ru",            "rus",                 "34",                    30236  ),
-    ("Serbian"                    , "36",       "sr",            "scc",                 "35",                    30237  ),
-    ("Slovak"                     , "37",       "sk",            "slo",                 "36",                    30238  ),
-    ("Slovenian"                  , "1",        "sl",            "slv",                 "37",                    30239  ),
     ("Spanish"                    , "28",       "es",            "spa",                 "38",                    30240  ),
-    ("Swedish"                    , "25",       "sv",            "swe",                 "39",                    30242  ),
-    ("Thai"                       , "0",        "th",            "tha",                 "40",                    30243  ),
-    ("Turkish"                    , "30",       "tr",            "tur",                 "41",                    30244  ),
-    ("Ukrainian"                  , "46",       "uk",            "ukr",                 "42",                    30245  ),
-    ("Vietnamese"                 , "51",       "vi",            "vie",                 "43",                    30246  ),
-    ("BosnianLatin"               , "10",       "bs",            "bos",                 "100",                   30204  ),
-    ("Farsi"                      , "52",       "fa",            "per",                 "13",                    30247  ),
     ("English (US)"               , "2",        "en",            "eng",                 "100",                   30212  ),
     ("English (UK)"               , "2",        "en",            "eng",                 "100",                   30212  ),
     ("Portuguese (Brazil)"        , "48",       "pb",            "pob",                 "32",                    30234  ),
@@ -90,10 +48,7 @@ LANGUAGES      = (
     ("Español (España)"           , "28",       "es",            "spa",                 "100",                   30240  ),
     ("Spanish (Latin America)"    , "28",       "es",            "spa",                 "100",                   30240  ),
     ("Español"                    , "28",       "es",            "spa",                 "100",                   30240  ),
-    ("SerbianLatin"               , "36",       "sr",            "scc",                 "100",                   30237  ),
-    ("Spanish (Spain)"            , "28",       "es",            "spa",                 "100",                   30240  ),
-    ("Chinese (Traditional)"      , "17",       "zh",            "chi",                 "100",                   30207  ),
-    ("Chinese (Simplified)"       , "17",       "zh",            "chi",                 "100",                   30207  ) )
+    ("Spanish (Spain)"            , "28",       "es",            "spa",                 "100",                   30240  ) )
 
 def languageTranslate(lang, lang_from, lang_to):
     for x in LANGUAGES:
@@ -118,6 +73,20 @@ class LTVThread(Thread):
     def run(self):
         fnc = self.obj.pageDownload(self.count, self.main_id, self.page)
         self.status = fnc
+
+class FuncThread(Thread):
+    def __init__(self, group=None, target=None, name=None,
+                 args=(), kwargs={}, Verbose=None):
+        Thread.__init__(self, group, target, name, args, kwargs, Verbose)
+        self._return = None
+
+    def run(self):
+        if self._Thread__target is not None:
+            self._return = self._Thread__target(*self._Thread__args,**self._Thread__kwargs)
+
+    def join(self):
+        Thread.join(self)
+        return self._return
 
 class LegendasTV:
     def __init__(self, **kargs):
@@ -161,10 +130,12 @@ class LegendasTV:
         return s
 
     def CleanLTVTitle(self, s):
-        s = re.sub("[(]?[0-9]{4}[)]?$", "", s)
+        s = re.sub("[(][0-9]{4}[)]$", "", s)
         s = re.sub("[ ]?&[ ]?", " ", s)
         s = re.sub("'", " ", s)
+        s = re.sub('\.(?!(\S[^. ])|\d)', '_', s)
         s = self.chomp(s)
+        s = re.sub("_", ".", s)
         s = s.title()
         return s
     
@@ -226,31 +197,90 @@ class LegendasTV:
         self.Log(" ")
         return 0
 
-    def findID(self, Movie, TVShow, Year, Season, SearchTitle, SearchString):
-        allResults, discardedResults, filteredResults, LTVSeason, LTVYear = [], [], [], 0, 0
-        Response = self._urlopen("http://minister.legendas.tv/util/busca_titulo/" + urllib.quote_plus(SearchString))
-        Response =  simplejson.loads(unicode(Response, 'utf-8', errors='ignore'))
+    def findID(self, Movie, TVShow, Year, Season, IMDB, SearchTitle, SearchString):
+        allResults, discardedResults, filteredResults, JSONContent, LTVSeason, LTVYear, LTVIMDB = [], [], [], [], 0, 0, None        
         # Load the results
         # Parse and filter the results
+        self.Log("Message: Movie:[%s], TVShow:[%s], Year:[%s], Season:[%s], IMDB:[%s]" % (Movie, TVShow, Year, Season, IMDB))
         self.Log("Message: Searching for movie/tvshow list with term(s): [%s]" % SearchString)
-        for R in Response:
-            LTVSeason = 0
-            if R.has_key('Filme') and R['Filme'].has_key('dsc_nome'):
-                LTVTitle = self.CleanLTVTitle(R['Filme']['dsc_nome'])
-                TitleBR = R['Filme']['dsc_nome_br']
-                if re.findall(".*? - (\d{1,2}).*?emporada", TitleBR):
-                    LTVSeason = re.findall(".*? - (\d{1,2}).*?emporada", TitleBR)[0]
-                ContentID = R['Filme']['id_filme']
+
+        SearchElements = SearchString.split(" ")
+        for x in xrange(0,len(SearchElements)):
+            fromBegin = " ".join(SearchElements[:x])
+            fromEnd   = " ".join(SearchElements[-x:])
+            # print "fromBegin[%s] fromEnd[%s]" % (fromBegin, fromEnd)
+            for search in [ fromBegin, fromEnd]:
+                url     = "http://legendas.tv/legenda/sugestao/" + urllib.quote_plus(search)
+                current = FuncThread(target=self._urlopen, args=(url,))
+                current.start()
+                self.RegThreads.append(current)
+            # Wait for all threads to finish
+            for thread in self.RegThreads:
+                try:
+                    # Try if thread result is a valid JSON string
+                    contents = simplejson.loads(unicode(thread.join(), 'utf-8', errors='ignore'))
+                    for content in contents:
+                        JSONContent.append(content)
+                except:
+                    # Continue if thread result i an invalud JSON string
+                    pass
+
+        for R in JSONContent:
+            # print simplejson.dumps(R, sort_keys=True, indent=4, separators=(',', ': '))
+            if R.has_key("_source"):
+                ContentID = R['_id']
+                # Continue if id already exists
+                if filter(lambda id: id['id'] == ContentID, discardedResults) or filter(lambda id: id['id'] == ContentID, allResults):
+                    continue
+                Source    = R["_source"]
+                LTVSeason = Source["temporada"] if Source["tipo"] == "S" else 0
+                LTVTitle  = self.CleanLTVTitle(Source['dsc_nome'])
+                TitleBR   = self.CleanLTVTitle(Source['dsc_nome_br'])
+                LTVYear   = Source["dsc_data_lancamento"] if Source["dsc_data_lancamento"].isdigit() else 0
+                LTVIMDB   = Source["id_imdb"] if Source["id_imdb"] else None
                 # Calculate the probability ratio and append the result
-                Ratio = self.CalculateRatio(LTVTitle, SearchTitle)
-                allResults.append({"id" : ContentID, "title" : LTVTitle, "ratio" : Ratio, "year" : LTVYear, "season" : LTVSeason})
+                Ratio     = self.CalculateRatio(LTVTitle, SearchTitle)
+                Item      = {"id" : ContentID, "title" : LTVTitle, "ratio" : Ratio, "year" : LTVYear, "season" : LTVSeason, "imdb" : LTVIMDB}
+                # If IMDB is supplied, try to filter using it
+                if IMDB and LTVIMDB and re.search(LTVIMDB, IMDB):
+                    allResults.append(Item)
+                elif int(LTVYear) == int(Year):
+                    allResults.append(Item)
+                elif float(Ratio) > 0.5:
+                    allResults.append(Item)
+                else:
+                    discardedResults.append(Item)
+        # Extend with the older version
+        if not len(allResults):
+            self.Log("Extending results...")
+            Response = self._urlopen("http://minister.legendas.tv/util/busca_titulo/" + urllib.quote_plus(SearchString))
+            Response =  simplejson.loads(unicode(Response, 'utf-8', errors='ignore'))
+            # Load the results
+            # Parse and filter the results
+            self.Log("Message: Searching for movie/tvshow list with term(s): [%s]" % SearchString)
+            for R in Response:
+                LTVSeason = 0
+                if R.has_key('Filme') and R['Filme'].has_key('dsc_nome'):
+                    LTVTitle = self.CleanLTVTitle(R['Filme']['dsc_nome'])
+                    TitleBR = R['Filme']['dsc_nome_br']
+                    if re.findall(".*? - (\d{1,2}).*?emporada", TitleBR):
+                        LTVSeason = re.findall(".*? - (\d{1,2}).*?emporada", TitleBR)[0]
+                    ContentID = R['Filme']['id_filme']
+                    # Calculate the probability ratio and append the result
+                    Ratio = self.CalculateRatio(LTVTitle, SearchTitle)
+                    Item  = {"id" : ContentID, "title" : LTVTitle, "ratio" : Ratio, "year" : 0, "season" : LTVSeason, "imdb" : ""}
+                    allResults.append(Item)
+
         # Return if there are no results
         if not len(allResults):
             self.Log("Message: The search [%s] didn't returned viable results." % SearchString)
+            self.Log(" ")
+            self.Log("Discarded results:")
+            self._log_List_dict(discardedResults, "ratio year title season id imdb")
             return "", ""
         # Filter tvshows for season or movies by year
         else:
-            allResults = sorted(allResults, key=lambda k: k["ratio"], reverse=True)
+            allResults       = sorted(allResults, key=lambda k: k["ratio"], reverse=True)
             partialMatch = []
             for Result in allResults:
                 if TVShow:
@@ -269,19 +299,20 @@ class LegendasTV:
                         discardedResults.append(Result)
             if not len(filteredResults):
                 filteredResults.extend(partialMatch)
+            discardedResults = sorted(discardedResults, key=lambda k: k["ratio"], reverse=True)
             if not len(filteredResults):
                 self.Log("Message: After filtration, search [%s] didn't returned viable results." % SearchString)
                 self.Log("Discarded results:")
-                self._log_List_dict(discardedResults, "ratio year title season id")
+                self._log_List_dict(discardedResults, "ratio year title season id imdb")
                 return discardedResults, ""
             else:
                 # Log filtered results
                 self.Log("Message: After filtration, the search [%s] returned %s viable results." % (SearchString, len(filteredResults)))
                 self.Log(" ")
                 self.Log("Viable results:")
-                self._log_List_dict(filteredResults, "ratio year title season id")
+                self._log_List_dict(filteredResults, "ratio year title season id imdb")
                 self.Log("Discarded results:")
-                self._log_List_dict(discardedResults, "ratio year title season id")
+                self._log_List_dict(discardedResults, "ratio year title season id imdb")
                 return discardedResults, filteredResults
             
     def pageDownload(self, MainID, MainIDNumber, Page):
@@ -348,33 +379,39 @@ class LegendasTV:
         # Init all variables
         startTime = time.time()
         filteredResults, self.DownloadsResults, self.Languages = [], [], []
-        Movie, TVShow, Year, Season, Episode = "", "", 0, 0, 0
+        Movie, TVShow, Year, Season, Episode, IMDB = "", "", 0, 0, 0, ""
         for key, value in kargs.iteritems():
-            if key == "title":             Movie = self.CleanLTVTitle(value)
-            if key == "tvshow":            TVShow = self.CleanLTVTitle(value)
-            if key == "year" and value:    Year = int(value)
-            if key == "season" and value:  Season = int(value)
+            if key == "title":             Movie   = self.CleanLTVTitle(value)
+            if key == "tvshow":            TVShow  = self.CleanLTVTitle(value)
+            if key == "year"    and value: Year    = int(value)
+            if key == "season"  and value: Season  = int(value)
             if key == "episode" and value: Episode = int(value)
-            if key == "lang" and value:
+            if key == "imdb"    and value: IMDB    = value
+            if key == "lang"    and value:
                 for x, lang in enumerate(value):
                     self.Languages.append((x, lang))
         self.Languages.sort()
 
-        if TVShow: SearchTitle = TVShow
-        else: SearchTitle = Movie
+        self.Log("IMDB: "+IMDB)
+
+        if TVShow:
+            SearchTitle = TVShow
+        else:
+            SearchTitle = Movie
+
         discardedResults, filteredResults = "", ""
-        discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchTitle)
-        if not filteredResults:
-            # Searching for movie titles/tvshow ids using the lengthiest words
-            if len(SearchTitle.split(" ")):
-                for SearchString in sorted(SearchTitle.split(" "), key=len, reverse=True):
-                    if SearchString in [ 'The', 'O', 'A', 'Os', 'As', 'El', 'La', 'Los', 'Las', 'Les', 'Le' ] or len(SearchString) < 2:
-                        continue
-                    discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchString)
-                    if filteredResults: 
-                        break
-            else:
-                discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, SearchTitle, SearchTitle)
+        discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, IMDB, SearchTitle, SearchTitle)
+        # if not filteredResults:
+        #     # Searching for movie titles/tvshow ids using the lengthiest words
+        #     if len(SearchTitle.split(" ")):
+        #         for SearchString in sorted(SearchTitle.split(" "), key=len, reverse=True):
+        #             if SearchString in [ 'The', 'O', 'A', 'Os', 'As', 'El', 'La', 'Los', 'Las', 'Les', 'Le' ] or len(SearchString) < 2:
+        #                 continue
+        #             discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, IMDB, SearchTitle, SearchString)
+        #             if filteredResults: 
+        #                 break
+        #     else:
+        #         discardedResults, filteredResults = self.findID(Movie, TVShow, Year, Season, IMDB, SearchTitle, SearchTitle)
         if not filteredResults and len(discardedResults):
             filteredResults = []
             for Result in discardedResults[0:4]:
@@ -388,9 +425,6 @@ class LegendasTV:
         for MainID in filteredResults[0:4]:
             # Find how much pages are to download
             self.Log("Message: Retrieving results to id[%s]" % (MainID["id"]))
-#             Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % ("1", MainID["id"]))
-#             regResponse = re.findall(regex_2, Response)
-#             TotalPages = len(regResponse) +1
             TotalPages=3
             # Form and execute threaded downloads
             for Page in range(TotalPages):
