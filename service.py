@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.3.1
+# Rev. 2.3.2
 
 import os
 import sys
@@ -14,7 +14,7 @@ import xbmcvfs
 import xbmcaddon
 import xbmcgui,xbmcplugin
 
-__addon__ = xbmcaddon.Addon()
+__addon__      = xbmcaddon.Addon()
 __author__     = __addon__.getAddonInfo('author')
 __scriptid__   = __addon__.getAddonInfo('id')
 __scriptname__ = __addon__.getAddonInfo('name')
@@ -27,7 +27,7 @@ __resource__   = xbmc.translatePath( os.path.join( __cwd__, 'resources', 'lib' )
 __temp__       = xbmc.translatePath( os.path.join( __profile__, 'temp', '') ).decode("utf-8")
 
 sys.path.append (__resource__)
-__search__ = __addon__.getSetting( 'SEARCH' )
+__search__   = __addon__.getSetting( 'SEARCH' )
 __username__ = __addon__.getSetting( 'USERNAME' )
 __password__ = __addon__.getSetting( 'PASSWORD' )
 
