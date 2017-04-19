@@ -129,7 +129,7 @@ def Download(url, filename, pack, language): #standard input
     # Use XBMC.Extract to extract the downloaded file, extract it to the temp dir, 
     # then removes all files from the temp dir that aren't subtitles.
     def extract_and_copy(extraction=0):
-        for root, dirs, files in os.walk(extractPath, topdown=False):
+        for root, dirs, files in os.walk(unicode(extractPath, 'utf8'), topdown=False):
             for file in files:
                 dirfile = os.path.join(root, file)
                 
