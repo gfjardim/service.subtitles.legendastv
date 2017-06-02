@@ -1,4 +1,4 @@
-﻿# -*- coding: UTF-8 -*-
+# -*- coding: UTF-8 -*-
 # Copyright, 2010-2016, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
@@ -66,7 +66,7 @@ class LTVThread(Thread):
         Thread.__init__(self)
         self.count = count
         self.main_id = main_id
-        self.page = page
+        self.page = page - 1 # Page index starts at 0
         self.obj = obj
         self.status = -1
         
@@ -323,7 +323,7 @@ class LegendasTV:
         self.Log("Message: Retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         
 #        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
-        Response = self._urlopen("http://legendas.tv/util/carrega_legendas_busca_filme/%s/-/-/%s" % (MainID["id"], Page)).read()
+        Response = self._urlopen("http://legendas.tv/legendas/busca/-/-/-/%s/%s" % (Page, MainID["id"])).read()
         if not re.findall(regex_1, Response, re.IGNORECASE | re.DOTALL):
             self.Log("Error: Failed retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         else:
