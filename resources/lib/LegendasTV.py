@@ -323,7 +323,7 @@ class LegendasTV:
         self.Log("Message: Retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         
 #        Response = self._urlopen("http://minister.legendas.tv/util/carrega_legendas_busca/page:%s/id_filme:%s" % (Page, MainID["id"]))
-        Response = self._urlopen("http://legendas.tv/legendas/busca/-/-/-/%s/%s" % (Page, MainID["id"])).read()
+        Response = self._urlopen("http://legendas.tv/legenda/busca/-/-/-/%s/%s" % (Page, MainID["id"])).read()
         if not re.findall(regex_1, Response, re.IGNORECASE | re.DOTALL):
             self.Log("Error: Failed retrieving page [%s] for Movie[%s], Id[%s]." % (Page, MainID["title"], MainID["id"]))
         else:
