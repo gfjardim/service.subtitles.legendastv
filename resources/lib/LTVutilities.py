@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
 import re
@@ -20,6 +20,14 @@ except:
 TheTVDBApi = "A1738606AC58C23D"
 TMDBApi    = "96e0692265de9b2019b16f0c144efa56"
 
+def try_decode(text, encoding="utf-8"):
+    if isinstance(text, str):
+        try:
+            return text.decode(encoding)
+        except:
+            pass
+    return text
+
 def normalizeString(str):
   return unicodedata.normalize(
          'NFKD', unicode(unicode(str, 'utf-8'))
@@ -34,7 +42,7 @@ def log(msg, logtype="DEBUG"):
   if   logtype == "DEBUG":   loglevel = xbmc.LOGDEBUG
   elif logtype == "NOTICE":  loglevel = xbmc.LOGNOTICE
   elif logtype == "ERROR":   loglevel = xbmc.LOGERROR
-  xbmc.log((u"### [%s] - %s" % (__scriptname__,msg,)).encode('utf-8'), level=loglevel )
+  xbmc.log((u"### [%s] - %s" % (__scriptname__,try_decode(msg),)).encode('utf-8'), level=loglevel )
 
 def getTheTVDBToken():
     HTTPRequest = urllib2.Request("https://api.thetvdb.com/login", data=json.dumps({"apikey" : TheTVDBApi}), headers={'Content-Type' : 'application/json'})
