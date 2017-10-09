@@ -34,7 +34,13 @@ def log(msg, logtype="DEBUG"):
   if   logtype == "DEBUG":   loglevel = xbmc.LOGDEBUG
   elif logtype == "NOTICE":  loglevel = xbmc.LOGNOTICE
   elif logtype == "ERROR":   loglevel = xbmc.LOGERROR
-  xbmc.log((u"### [%s] - %s" % (__scriptname__,msg,)).encode('utf-8'), level=loglevel )
+  reload(sys)
+  defaultencoding = sys.getdefaultencoding()
+  sys.setdefaultencoding('utf-8')
+  try:
+    xbmc.log((u"### [%s] - %s" % (__scriptname__,msg,)).encode('utf-8'), level=loglevel )
+  finally:
+    sys.setdefaultencoding(defaultencoding)
 
 def getTheTVDBToken():
     HTTPRequest = urllib2.Request("https://api.thetvdb.com/login", data=json.dumps({"apikey" : TheTVDBApi}), headers={'Content-Type' : 'application/json'})
