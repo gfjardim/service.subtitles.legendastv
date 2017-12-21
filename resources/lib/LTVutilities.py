@@ -181,3 +181,15 @@ def isStacked(subA, subB):
                 if fnA == fnB and otherA == otherB:
                     return True
     return False
+
+def extractArchiveToFolder(archive, ext, destFolder):
+    archiveURL = urllib.quote_plus(archive)
+    if ext == 'rar':
+        archiveURL = 'rar://' + archiveURL
+    else:
+        archiveURL = 'zip://' + archiveURL
+    dirs, files = xbmcvfs.listdir(archiveURL)
+    for file in files:
+        src = archiveURL + '/' + file
+        dest = destFolder + '/' + file
+        xbmcvfs.copy(src, dest)
