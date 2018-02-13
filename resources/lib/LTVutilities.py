@@ -8,6 +8,7 @@ import xbmcvfs
 import shutil
 import unicodedata
 import urllib, urllib2
+import ssl
 
 try: import simplejson as json
 except: import json
@@ -160,7 +161,8 @@ def getTVShowOrginalTitle(Title, ShowID):
 def getMovieOriginalTitle(Title, MovieID):
     if MovieID:
       HTTPRequest  = urllib2.Request("https://api.themoviedb.org/3/find/%s?external_source=imdb_id&api_key=%s" % (MovieID, TMDBApi))
-      HTTPResponse = urllib2.urlopen(HTTPRequest).read()
+      context = ssl._create_unverified_context()
+      HTTPResponse = urllib2.urlopen(HTTPRequest, context=context).read()
       JSONContent  = json.loads(HTTPResponse);
       if len(JSONContent["movie_results"]):
         return normalizeString(JSONContent["movie_results"][0]['original_title'].encode('utf-8'))
