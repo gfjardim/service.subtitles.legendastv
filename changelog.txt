@@ -1,3 +1,6 @@
+2.4.0
+- Fix: Use RAR Archive support addon on Koki 18 (by henricos) 
+
 2.3.2
 - Fix: addon version mismatch 
 
