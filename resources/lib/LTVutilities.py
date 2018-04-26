@@ -8,6 +8,7 @@ import xbmcvfs
 import shutil
 import unicodedata
 import urllib, urllib2
+import ssl
 
 try: import simplejson as json
 except: import json
@@ -34,7 +35,13 @@ def log(msg, logtype="DEBUG"):
   if   logtype == "DEBUG":   loglevel = xbmc.LOGDEBUG
   elif logtype == "NOTICE":  loglevel = xbmc.LOGNOTICE
   elif logtype == "ERROR":   loglevel = xbmc.LOGERROR
-  xbmc.log((u"### [%s] - %s" % (__scriptname__,msg,)).encode('utf-8'), level=loglevel )
+  reload(sys)
+  defaultencoding = sys.getdefaultencoding()
+  sys.setdefaultencoding('utf-8')
+  try:
+    xbmc.log((u"### [%s] - %s" % (__scriptname__,msg,)).encode('utf-8'), level=loglevel )
+  finally:
+    sys.setdefaultencoding(defaultencoding)
 
 def getTheTVDBToken():
     HTTPRequest = urllib2.Request("https://api.thetvdb.com/login", data=json.dumps({"apikey" : TheTVDBApi}), headers={'Content-Type' : 'application/json'})
@@ -154,7 +161,8 @@ def getTVShowOrginalTitle(Title, ShowID):
 def getMovieOriginalTitle(Title, MovieID):
     if MovieID:
       HTTPRequest  = urllib2.Request("https://api.themoviedb.org/3/find/%s?external_source=imdb_id&api_key=%s" % (MovieID, TMDBApi))
-      HTTPResponse = urllib2.urlopen(HTTPRequest).read()
+      context = ssl._create_unverified_context()
+      HTTPResponse = urllib2.urlopen(HTTPRequest, context=context).read()
       JSONContent  = json.loads(HTTPResponse);
       if len(JSONContent["movie_results"]):
         return normalizeString(JSONContent["movie_results"][0]['original_title'].encode('utf-8'))
@@ -175,3 +183,15 @@ def isStacked(subA, subB):
                 if fnA == fnB and otherA == otherB:
                     return True
     return False
+
+def extractArchiveToFolder(archive, ext, destFolder):
+    archiveURL = urllib.quote_plus(archive)
+    if ext == 'rar':
+        archiveURL = 'rar://' + archiveURL
+    else:
+        archiveURL = 'zip://' + archiveURL
+    dirs, files = xbmcvfs.listdir(archiveURL)
+    for file in files:
+        src = archiveURL + '/' + file
+        dest = destFolder + '/' + file
+        xbmcvfs.copy(src, dest)

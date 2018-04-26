@@ -2,7 +2,7 @@
 # Copyright, 2010, Guilherme Jardim.
 # This program is distributed under the terms of the GNU General Public License, version 3.
 # http://www.gnu.org/licenses/gpl.txt
-# Rev. 2.3.2
+# Rev. 2.4.0
 
 import os
 import sys
@@ -31,7 +31,7 @@ __search__   = __addon__.getSetting( 'SEARCH' )
 __username__ = __addon__.getSetting( 'USERNAME' )
 __password__ = __addon__.getSetting( 'PASSWORD' )
 
-from LTVutilities import log, cleanDirectory, isStacked, getMovieIMDB, getShowIMDB, getShowId, getTVShowOrginalTitle, getMovieOriginalTitle, safeFilename
+from LTVutilities import log, cleanDirectory, isStacked, getMovieIMDB, getShowIMDB, getShowId, getTVShowOrginalTitle, getMovieOriginalTitle, safeFilename, extractArchiveToFolder
 from LegendasTV import *
 
 LTV = LegendasTV()
@@ -157,7 +157,8 @@ def Download(url, filename, pack, language): #standard input
                         subtitles.append(new_dirfile)
                 elif ext in "rar zip" and not extraction:
                     # Extract compressed files, extracted priorly
-                    xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (new_dirfile, extractPath))
+                    #xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (new_dirfile, extractPath))
+                    extractArchiveToFolder(new_dirfile, ext, extractPath)
                     xbmc.sleep(1000)
                     extract_and_copy(1)
                 elif ext not in "idx": xbmcvfs.delete(new_dirfile)
@@ -165,7 +166,8 @@ def Download(url, filename, pack, language): #standard input
                 dirfolder = os.path.join(root, dir)
                 xbmcvfs.rmdir(dirfolder)
 
-    xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (fname, extractPath))
+    #xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (fname, extractPath))
+    extractArchiveToFolder(fname, FileExt, extractPath)
     xbmc.sleep(1000)
     extract_and_copy()
     
