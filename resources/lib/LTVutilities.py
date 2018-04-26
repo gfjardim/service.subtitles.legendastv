@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 import os
 import re
@@ -20,6 +20,14 @@ except:
 
 TheTVDBApi = "A1738606AC58C23D"
 TMDBApi    = "96e0692265de9b2019b16f0c144efa56"
+
+def try_decode(text, encoding="utf-8"):
+    if isinstance(text, str):
+        try:
+            return text.decode(encoding)
+        except:
+            pass
+    return text
 
 def normalizeString(str):
   return unicodedata.normalize(
