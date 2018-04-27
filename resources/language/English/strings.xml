@@ -15,4 +15,7 @@
     <string id="32009">Password</string>
     <string id="32010">Import all subtitles</string>
     <string id="32011">Search using original title</string>
+    <string id="32012">RAR Extraction</string>
+    <string id="32013">RAR virtual file system must be enabled.</string>
+    <string id="32014">You must enable it under Addons -> My add-ons -> Virtual filesystems -> RAR archive support</string>
 </strings>

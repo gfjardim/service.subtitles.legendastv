@@ -15,4 +15,7 @@
     <string id="32009">Senha</string>
     <string id="32010">Importar todas as legendas</string>
     <string id="32011">Pesquisar usando título original</string>
+    <string id="32012">Extração RAR</string>
+    <string id="32013">O sistema de arquivos virtual RAR precisa estar ativado.</string>
+    <string id="32014">Você deve ativá-lo em Addons -> Meus add-ons -> Virtual filesystems -> Suporte a arquivos RAR.</string>
 </strings>

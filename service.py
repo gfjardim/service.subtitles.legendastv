@@ -10,9 +10,13 @@ import xbmc
 import re
 import urllib
 import urllib2
+import uuid
 import xbmcvfs
 import xbmcaddon
 import xbmcgui,xbmcplugin
+
+try: import simplejson as json
+except: import json
 
 __addon__      = xbmcaddon.Addon()
 __author__     = __addon__.getAddonInfo('author')
@@ -38,6 +42,8 @@ LTV = LegendasTV()
 LTV.Log = log
 
 def Search(item):  # standard input
+    
+    enable_rar()
 
     try:
         languages = []
@@ -62,7 +68,7 @@ def Search(item):  # standard input
 
             listitem = xbmcgui.ListItem(label=it["language_name"],
                                         label2=label,
-                                        iconImage=it["rating"],
+                                        iconImage=str(int(round(float(it["rating"])/2))),
                                         thumbnailImage=it["language_flag"]
                                         )
             if it["sync"]: listitem.setProperty( "sync", "true" )
@@ -87,105 +93,53 @@ def Search(item):  # standard input
                                                                                 )
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False)
 
-# def xbmc_walk(path, out = [] ):
-#     dirs, files =  xbmcvfs.listdir(path)
-#     for f in files:
-#         f =  u"%s/%s" % (path,f.decode("utf-8"))
-#         out.append(f)
-#     for d in dirs:
-#         d = "%s/%s/" % (path, d)
-#         if xbmcvfs.exists(d): out.extend(xbmc_walk(d, out) )
-#     return out
 
 def xbmc_walk(DIR):
     LIST = []
     dirs, files = xbmcvfs.listdir(DIR)
     for file in files:
-        LIST.append(os.path.join( DIR, file ))
+        ext = os.path.splitext(file)[1][1:].lower()
+        if ext in sub_ext:
+            LIST.append( os.path.join( DIR,  file ))
     for dir in dirs:
         LIST.extend(list(xbmc_walk(os.path.join( DIR, dir ))))
     return LIST
 
 
-
-
 def Download(url, filename, pack, language): #standard input
     #Create some variables
     subtitles = []
+    random      = uuid.uuid4().hex
     extractPath = os.path.join(__temp__, "Extracted")
+    
     cleanDirectory(extractPath)
 
     FileContent, FileExt = LTV.Download(url)
 
-    fname = "%s.%s" % ( os.path.join(__temp__,"subtitle"), FileExt )
+    fname = "%s.%s" % ( os.path.join(extractPath, random), FileExt )
 
     with open(fname,'wb') as f: f.write(FileContent)
 
-    # brunoga fixed solution for non unicode caracters
-    # Ps. Windows allready parses Unicode filenames.
-    fs_encoding = sys.getfilesystemencoding() if sys.getfilesystemencoding() else "utf-8"
-    extractPath = extractPath.encode(fs_encoding)
-
-    # Use XBMC.Extract to extract the downloaded file, extract it to the temp dir, 
-    # then removes all files from the temp dir that aren't subtitles.
-    def extract_and_copy(extraction=0):
-        for root, dirs, files in os.walk(unicode(extractPath, 'utf8'), topdown=False):
-            for file in files:
-                dirfile = os.path.join(root, file)
-                
-                # Sanitize filenames - converting them to ASCII - and remove them from folders
-                log("Opening file: "+dirfile, "DEBUG")
-
-                with open(dirfile,'rb') as f: 
-                    FileContent = f.read()
-                xbmcvfs.delete(dirfile)
-
-                dirfile_with_path_name = normalizeString(os.path.relpath(dirfile, extractPath))
-                dirname, basename = os.path.split(dirfile_with_path_name)
-                dirname = re.sub(r"[/\\]{1,10}","-", dirname)
-                dirfile_with_path_name = "(%s) %s" % (dirname, basename) if len(dirname) else basename
-                new_dirfile = os.path.join(extractPath, safeFilename(dirfile_with_path_name))
-                with open(new_dirfile, "w") as f: 
-                    log("Writing file: "+new_dirfile, "DEBUG")
-                    f.write(FileContent)
-                
-                # Get the file extension
-                ext = os.path.splitext(new_dirfile)[1][1:].lower()
-                if ext in sub_ext and xbmcvfs.exists(new_dirfile):
-                    if not new_dirfile in subtitles:
-                        #Append the matching file
-                        subtitles.append(new_dirfile)
-                elif ext in "rar zip" and not extraction:
-                    # Extract compressed files, extracted priorly
-                    #xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (new_dirfile, extractPath))
-                    extractArchiveToFolder(new_dirfile, ext, extractPath)
-                    xbmc.sleep(1000)
-                    extract_and_copy(1)
-                elif ext not in "idx": xbmcvfs.delete(new_dirfile)
-            for dir in dirs:
-                dirfolder = os.path.join(root, dir)
-                xbmcvfs.rmdir(dirfolder)
-
-    #xbmc.executebuiltin("XBMC.Extract(%s, %s)" % (fname, extractPath))
-    extractArchiveToFolder(fname, FileExt, extractPath)
-    xbmc.sleep(1000)
-    extract_and_copy()
+    archiveURL = "%s%s" % ( ('rar://' if FileExt == "rar" else 'zip://'), urllib.quote_plus(fname))
+    files = xbmc_walk(archiveURL);
     
     temp = []
-    for sub in subtitles:
-        ltv = LegendasTV()
-        video_file = ltv.CleanLTVTitle(filename)
-        sub_striped =  ltv.CleanLTVTitle(os.path.basename(sub))
-        Ratio = ltv.CalculateRatio(sub_striped, video_file)
-        temp.append([Ratio, sub])
+    for file in files:
+        sub = urllib.unquote_plus(file)
+        sub, ext = os.path.splitext(os.path.basename(file))
+        sub_striped =  LTV.CleanLTVTitle(sub)
+        Ratio = LTV.CalculateRatio(sub_striped, LTV.CleanLTVTitle(filename))
+        temp.append([Ratio, file, sub, ext])
+
     subtitles = sorted(temp, reverse=True)
     outputSub = []
+
     if len(subtitles) > 1:
         if pack:
-            subtitles.append(["pack",__language__( 32010 )])
+            subtitles.append(["pack", "pack", __language__( 32010 )])
         dialog = xbmcgui.Dialog()
         sel = dialog.select("%s\n%s" % (__language__( 32001 ).encode("utf-8"), filename ) ,
-                             [os.path.basename(y) for x, y in subtitles])
+                             [y for v, x, y, z in subtitles])
         if sel >= 0:
             subSelected = subtitles[sel][1]
 
@@ -207,9 +161,13 @@ def Download(url, filename, pack, language): #standard input
                                 out = "%s.%s%s" % (name, lang, ext)
                                 xbmcvfs.copy(s, out)
 
-
-            outputSub.append(subSelected)
-    elif len(subtitles) == 1: outputSub.append(subtitles[0][1])
+            temp_sel    = os.path.join(extractPath, "%s.%s" % (random, subtitles[sel][3]))
+            xbmcvfs.copy(subSelected, temp_sel)
+            outputSub.append(temp_sel)
+    elif len(subtitles) == 1: 
+        temp_sel    = os.path.join(extractPath, "%s.%s" % (random, subtitles[0][3]))
+        xbmcvfs.copy(subSelected, temp_sel)
+        outputSub.append(temp_sel)
 
     return outputSub
 
@@ -229,6 +187,23 @@ def get_params(string=""):
             splitparams=pairsofparams[i].split('=')
             if (len(splitparams))==2: param[splitparams[0]]=splitparams[1]
     return param
+
+def enable_rar():
+
+    def is_rar_enabled():
+        q = '{"jsonrpc": "2.0", "method": "Addons.GetAddonDetails", "params": {"addonid": "vfs.rar", "properties": ["enabled"]}, "id": 0 }'
+        r  = json.loads(xbmc.executeJSONRPC(q))
+        log(xbmc.executeJSONRPC(q))
+        if r.has_key("result") and r["result"].has_key("addon"):
+            return r['result']["addon"]["enabled"]
+        return True
+
+    if not is_rar_enabled():    
+        xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "Addons.SetAddonEnabled", "params": {"addonid": "vfs.rar", "enabled": true} }')
+        time.sleep(1)
+        if not is_rar_enabled():
+            dialog = xbmcgui.Dialog()
+            ok = dialog.ok(__language__(32012).encode("utf-8"),  __language__(32013).encode("utf-8"), " ", __language__(32014).encode("utf-8"))
 
 params = get_params()
 log( "Version: %s" % __version__)
@@ -324,5 +299,6 @@ elif params['action'] == 'download':
     for sub in subs:
         listitem = xbmcgui.ListItem(label2=os.path.basename(sub))
         xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=sub,listitem=listitem,isFolder=False)
+
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
     

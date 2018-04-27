@@ -1,5 +1,10 @@
 2.4.0
-- Fix: Use RAR Archive support addon on Koki 18 (by henricos) 
+- Fix: Use RAR Archive support addon on Kodi 18 (Leia) (henricos)
+- Fix: handling non-ascii content on log method (ecsousa)
+- Fix: Use new URL for searches; idex starts at 0 now (fernandog)
+- Fix: Kodi 18 (Leia): check if RAR Archive support plugin is enabled
+- Fix: better subtitle extraction handling
+- Fix: rating stars not appearing correctly
 
 2.3.2
 - Fix: addon version mismatch 
